@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOTE.CHAIN | Secure Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <section id="landingPage" class="hero-bg min-h-screen text-white flex flex-col">
+        <nav class="p-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="check-icon">✓</div>
+                <span class="font-black text-xl tracking-tighter">VOTE.CHAIN</span>
+            </div>
+            <button onclick="showSection('loginOptions')" class="btn-login">Login</button>
+        </nav>
+        <div class="flex-1 flex flex-col items-center justify-center text-center px-6">
+            <h1 class="text-6xl md:text-8xl font-black mb-6">Voice the <br><span class="highlight">Future.</span></h1>
+            <p class="max-w-xl text-lg opacity-80">Verify your identity and cast your immutable vote on the blockchain.</p>
+        </div>
+    </section>
+
+    <section id="loginOptions" class="hidden fixed inset-0 z-50 bg-slate-900/95 flex items-center justify-center p-6 backdrop-blur-sm">
+        <div class="max-w-4xl w-full text-center">
+            <h2 class="text-white text-3xl font-bold mb-10">Select Access Portal</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div onclick="openAuthModal('voter')" class="role-card border-blue-500 text-slate-800 text-2xl">🗳️ Voter Portal</div>
+                <div onclick="openAuthModal('admin')" class="role-card border-green-500 text-slate-800 text-2xl">🛡️ Admin Portal</div>
+            </div>
+            <button onclick="showSection('landingPage')" class="mt-10 text-white/50">Go Back</button>
+        </div>
+    </section>
+
+    <div id="authModal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4">
+        <div class="bg-white w-full max-w-md rounded-3xl p-8 shadow-2xl">
+            <h2 id="modalTitle" class="text-2xl font-bold mb-6 text-slate-800">Login</h2>
+            <input type="text" id="loginId" placeholder="Voter ID / Admin ID" class="auth-input">
+            <input type="password" id="loginPin" placeholder="Security PIN" class="auth-input">
+            <button onclick="handleLogin()" id="loginSubmitBtn" class="w-full py-4 rounded-xl text-white font-bold bg-blue-500">Authorize</button>
+            <button onclick="closeAuthModal()" class="w-full py-2 text-gray-400 mt-2 text-sm">Cancel</button>
+        </div>
+    </div>
+
+    <section id="dashboard" class="hidden min-h-screen flex">
+        <aside class="sidebar">
+            <div class="text-2xl font-black text-blue-500 mb-10 italic">VOTE.CHAIN</div>
+            <nav class="flex-1 space-y-2">
+                <button id="btn-candidates" class="nav-item active" onclick="switchTab('candidateTab')">📋 Candidate List</button>
+                <button id="btn-voting" class="nav-item" onclick="switchTab('votingTab')">🗳️ Cast Vote</button>
+                <button id="btn-results" class="nav-item" onclick="switchTab('resultsTab')">📊 Results</button>
+            </nav>
+            <button onclick="location.reload()" class="logout-btn">Logout</button>
+        </aside>
+
+        <main class="flex-1 p-10 overflow-y-auto">
+            <div id="candidateTab" class="content-tab">
+                <div id="partyMenu">
+                    <h2 class="text-3xl font-bold mb-8 text-slate-800">Candidate Directory</h2>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div onclick="showPartyDetails('BJP')" class="party-select-card border-orange-200">
+                            <img src="https://m.media-amazon.com/images/I/61LoAsI+I6L._AC_UF894,1000_QL80_.jpg" class="party-logo-sq"> <span class="mt-2 text-slate-800">BJP</span>
+                        </div>
+                        <div onclick="showPartyDetails('Congress')" class="party-select-card border-blue-200">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Indian_National_Congress_Flag.svg/1280px-Indian_National_Congress_Flag.svg.png" class="party-logo-sq"> <span class="mt-2 text-slate-800">Congress</span>
+                        </div>
+                        <div onclick="showPartyDetails('AAP')" class="party-select-card border-yellow-200">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNMHgEEPwG2_YmTehQKIJdynDq2xuN0YfYdg&s" class="party-logo-sq"> <span class="mt-2 text-slate-800">AAP</span>
+                        </div>
+                        <div onclick="showPartyDetails('Others')" class="party-select-card border-slate-300">
+                             <img src="https://media.assettype.com/nationalherald%2F2022-01%2Fec4e9dc5-411d-426a-9913-0aa4d7e188a4%2Fsamajwadi_party.jpeg" class="party-logo-sq"> <span class="mt-2 text-slate-800">Others</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="partyDetailView" class="hidden">
+                    <button onclick="hidePartyDetails()" class="mb-6 text-blue-500 font-bold flex items-center gap-2">← Back to Selection</button>
+                    <div class="bg-white p-8 rounded-3xl border mb-10 shadow-sm">
+                        <h3 id="partyVisionTitle" class="text-3xl font-black mb-3 text-slate-800"></h3>
+                        <p id="partyAdvocacy" class="text-slate-600 italic border-l-4 border-blue-500 pl-4"></p>
+                    </div>
+                    <div id="leaderSection" class="flex justify-center mb-10"></div>
+                    <div id="teamSection" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+                </div>
+            </div>
+
+            <div id="votingTab" class="content-tab hidden text-center">
+                <h2 class="text-3xl font-bold mb-10 text-slate-800">Cast Your Secure Ballot</h2>
+                <div class="grid grid-cols-3 gap-8 mb-12">
+                    <div id="card-BJP" onclick="selectParty('BJP')" class="vote-party-card">
+                        <img src="https://m.media-amazon.com/images/I/61LoAsI+I6L._AC_UF894,1000_QL80_.jpg" class="party-logo-lg"> <b class="text-slate-800">BJP</b>
+                    </div>
+                    <div id="card-Congress" onclick="selectParty('Congress')" class="vote-party-card">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Indian_National_Congress_Flag.svg/1280px-Indian_National_Congress_Flag.svg.png" class="party-logo-lg"> <b class="text-slate-800">Congress</b>
+                    </div>
+                    <div id="card-AAP" onclick="selectParty('AAP')" class="vote-party-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNMHgEEPwG2_YmTehQKIJdynDq2xuN0YfYdg&s" class="party-logo-lg"> <b class="text-slate-800">AAP</b>
+                    </div>
+                </div>
+                <button id="voteActionBtn" onclick="submitVote()" class="vote-btn-locked" disabled>CONFIRM VOTE</button>
+            </div>
+
+            <div id="resultsTab" class="content-tab hidden">
+                <h2 class="text-3xl font-bold mb-8 italic">Live Standings</h2>
+                <div class="bg-white p-8 rounded-3xl border max-w-2xl shadow-sm">
+                    <div class="bar-container mb-6">
+                        <div class="flex justify-between mb-2 font-bold text-slate-800"><span>BJP</span><span>45%</span></div>
+                        <div class="bg-orange-500 h-4 rounded-full" style="width: 45%"></div>
+                    </div>
+                    <div class="bar-container mb-6">
+                        <div class="flex justify-between mb-2 font-bold text-slate-800"><span>Congress</span><span>35%</span></div>
+                        <div class="bg-blue-500 h-4 rounded-full" style="width: 35%"></div>
+                    </div>
+                    <div class="bar-container">
+                        <div class="flex justify-between mb-2 font-bold text-slate-800"><span>AAP</span><span>20%</span></div>
+                        <div class="bg-yellow-400 h-4 rounded-full" style="width: 20%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="successView" class="content-tab hidden text-center py-20">
+                <div class="success-icon">✓</div>
+                <h2 class="text-4xl font-black text-slate-800">Ballot Cast Successfully</h2>
+                <p class="text-slate-500 mt-4">Your vote is now secured on the blockchain ledger.</p>
+                <button onclick="switchTab('resultsTab')" class="mt-10 bg-blue-500 text-white px-8 py-3 rounded-xl font-bold">View Standings</button>
+            </div>
+        </main>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+  </html>
