@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Voting System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- User Header -->
+    <div class="user-header">
+        <div class="logo">🗳️ VoteChain Admin</div>
+        <div class="user-info">
+            <span>👤 <strong>Admin Panel</strong></span>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>📊 Admin Dashboard</h1>
+            <p>Manage elections and view results</p>
+        </div>
+
+        <!-- Dashboard Actions -->
+        <div class="dashboard-actions">
+            <a href="add-candidate.html" class="action-card">
+                <div class="icon">➕</div>
+                <h3>Add Candidate</h3>
+                <p>Register new candidates for the election</p>
+            </a>
+
+            <a href="#" class="action-card" onclick="viewCandidates(event)">
+                <div class="icon">👥</div>
+                <h3>View Candidates</h3>
+                <p>See all registered candidates</p>
+            </a>
+
+            <a href="results.html" class="action-card">
+                <div class="icon">📈</div>
+                <h3>View Results</h3>
+                <p>Check real-time election results</p>
+            </a>
+
+            <a href="#" class="action-card" onclick="manageElection(event)">
+                <div class="icon">⚙️</div>
+                <h3>Manage Election</h3>
+                <p>Start, pause, or end the election</p>
+            </a>
+        </div>
+
+        <!-- Election Status -->
+        <div class="election-status">
+            <h2>📋 Election Status</h2>
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="number" id="candidateCount">5</div>
+                    <div class="label">Total Candidates</div>
+                </div>
+                <div class="status-item">
+                    <div class="number" id="votesCast">127</div>
+                    <div class="label">Votes Cast</div>
+                </div>
+                <div class="status-item">
+                    <div class="number" id="registeredVoters">500</div>
+                    <div class="label">Registered Voters</div>
+                </div>
+                <div class="status-item">
+                    <div class="number" id="turnoutRate">25.4%</div>
+                    <div class="label">Turnout Rate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="election-status" style="margin-top: 2rem; background-color: #E3F2FD;">
+            <h2 style="color: #1E88E5;">📢 Recent Activity</h2>
+            <div style="background-color: white; padding: 1.5rem; border-radius: 10px; margin-top: 1rem;">
+                <div style="border-left: 4px solid #2ECC71; padding-left: 1rem; margin-bottom: 1rem;">
+                    <strong>New vote recorded</strong> - 2 minutes ago
+                </div>
+                <div style="border-left: 4px solid #2ECC71; padding-left: 1rem; margin-bottom: 1rem;">
+                    <strong>New vote recorded</strong> - 5 minutes ago
+                </div>
+                <div style="border-left: 4px solid #1E88E5; padding-left: 1rem; margin-bottom: 1rem;">
+                    <strong>Voter registered</strong> - 12 minutes ago
+                </div>
+                <div style="border-left: 4px solid #2ECC71; padding-left: 1rem; margin-bottom: 1rem;">
+                    <strong>New vote recorded</strong> - 18 minutes ago
+                </div>
+                <div style="border-left: 4px solid #1E88E5; padding-left: 1rem;">
+                    <strong>Candidate added: David Chen</strong> - 1 hour ago
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+            <div style="background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%); color: white; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">✅</div>
+                <div style="font-size: 1.5rem; font-weight: bold;">Active</div>
+                <div>Election Status</div>
+            </div>
+            <div style="background: linear-gradient(135deg, #1E88E5 0%, #1565C0 100%); color: white; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔒</div>
+                <div style="font-size: 1.5rem; font-weight: bold;">Blockchain</div>
+                <div>Secure & Transparent</div>
+            </div>
+            <div style="background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); color: white; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚡</div>
+                <div style="font-size: 1.5rem; font-weight: bold;">Real-time</div>
+                <div>Live Vote Updates</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Decentralized Voting System - Admin Panel</p>
+    </footer>
+
+    <script>
+        function logout() {
+            window.location.href = 'login.html';
+        }
+
+        function viewCandidates(event) {
+            event.preventDefault();
+            alert('Candidates List:\n\n1. John Doe (ABC Party)\n2. Jane Smith (XYZ Party)\n3. Alex Roy (LMN Party)\n4. Maria Garcia (PQR Party)\n5. David Chen (STU Party)');
+        }
+
+        function manageElection(event) {
+            event.preventDefault();
+            const action = confirm('Election is currently ACTIVE.\n\nClick OK to END the election, or Cancel to keep it running.');
+            if (action) {
+                alert('Election has been ended. No more votes will be accepted.');
+            } else {
+                alert('Election continues to be active.');
+            }
+        }
+
+        // Simulate live vote updates
+        function updateVoteCount() {
+            const votesCastElement = document.getElementById('votesCast');
+            let currentVotes = parseInt(votesCastElement.textContent);
+
+            // Randomly add votes (simulation)
+            if (Math.random() > 0.7) {
+                currentVotes++;
+                votesCastElement.textContent = currentVotes;
+
+                // Update turnout
+                const registeredVoters = parseInt(document.getElementById('registeredVoters').textContent);
+                const turnout = ((currentVotes / registeredVoters) * 100).toFixed(1);
+                document.getElementById('turnoutRate').textContent = turnout + '%';
+            }
+        }
+
+        // Update every 5 seconds (simulation)
+        setInterval(updateVoteCount, 5000);
+    </script>
+</body>
+</html>

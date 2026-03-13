@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Candidate - Admin</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .add-candidate-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .form-card {
+            background-color: var(--white);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-card h2 {
+            color: var(--blue);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-label {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--light-blue);
+            color: var(--blue);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+        }
+
+        .file-upload-label:hover {
+            background-color: var(--blue);
+            color: var(--white);
+        }
+
+        #photoInput {
+            display: none;
+        }
+
+        .photo-preview {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .photo-preview img {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--blue);
+        }
+
+        .success-message {
+            background-color: var(--light-green);
+            color: var(--green);
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- User Header -->
+    <div class="user-header">
+        <div class="logo">🗳️ VoteChain Admin</div>
+        <div class="user-info">
+            <span>👤 <strong>Admin Panel</strong></span>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Add Candidate Container -->
+    <div class="add-candidate-container">
+        <div class="form-card">
+            <h2>➕ Add New Candidate</h2>
+
+            <div class="success-message" id="successMessage">
+                ✅ Candidate added successfully!
+            </div>
+
+            <form id="candidateForm">
+                <div class="form-group">
+                    <label for="candidateName">Candidate Name</label>
+                    <input type="text" id="candidateName" name="candidateName" placeholder="Enter full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="partyName">Party Name</label>
+                    <input type="text" id="partyName" name="partyName" placeholder="Enter party name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="candidateId">Candidate ID</label>
+                    <input type="text" id="candidateId" name="candidateId" placeholder="Enter unique candidate ID" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="candidateSlogan">Campaign Slogan (Optional)</label>
+                    <input type="text" id="candidateSlogan" name="candidateSlogan" placeholder="Enter campaign slogan">
+                </div>
+
+                <div class="form-group">
+                    <label for="candidateBio">Biography (Optional)</label>
+                    <textarea id="candidateBio" name="candidateBio" rows="4" style="width: 100%; padding: 0.8rem; border: 2px solid var(--border-color); border-radius: 5px; font-family: inherit; font-size: 1rem;" placeholder="Enter candidate's background and qualifications"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Photo</label>
+                    <div class="file-upload-wrapper">
+                        <label for="photoInput" class="file-upload-label">
+                            📷 Choose Photo
+                        </label>
+                        <input type="file" id="photoInput" name="photoInput" accept="image/*">
+                        <span id="fileName" style="margin-left: 1rem; color: #666;"></span>
+                    </div>
+                    <div class="photo-preview" id="photoPreview"></div>
+                </div>
+
+                <button type="submit" class="btn-primary" style="margin-top: 1rem;">
+                    Add Candidate
+                </button>
+            </form>
+
+            <a href="admin-dashboard.html" class="back-link">← Back to Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Decentralized Voting System - Admin Panel</p>
+    </footer>
+
+    <script>
+        // File upload preview
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('fileName').textContent = file.name;
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('photoPreview');
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Candidate Photo">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form submission
+        document.getElementById('candidateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const candidateName = document.getElementById('candidateName').value;
+            const partyName = document.getElementById('partyName').value;
+            const candidateId = document.getElementById('candidateId').value;
+            const candidateSlogan = document.getElementById('candidateSlogan').value;
+            const candidateBio = document.getElementById('candidateBio').value;
+
+            // In a real application, this would send data to blockchain/backend
+            console.log('Adding candidate:', {
+                name: candidateName,
+                party: partyName,
+                id: candidateId,
+                slogan: candidateSlogan,
+                bio: candidateBio
+            });
+
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+
+            // Reset form
+            this.reset();
+            document.getElementById('fileName').textContent = '';
+            document.getElementById('photoPreview').innerHTML = '';
+
+            // Hide success message after 3 seconds
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+
+            // Optionally redirect back to dashboard
+            setTimeout(() => {
+                if (confirm('Candidate added successfully! Would you like to return to the dashboard?')) {
+                    window.location.href = 'admin-dashboard.html';
+                }
+            }, 1500);
+        });
+
+        function logout() {
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

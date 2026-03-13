@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cast Your Vote</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- User Header -->
+    <div class="user-header">
+        <div class="logo">🗳️ VoteChain</div>
+        <div class="user-info">
+            <span>Welcome, <strong id="voterName">Voter</strong></span>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Voting Container -->
+    <div class="voting-container">
+        <div class="voting-header">
+            <h1>Cast Your Vote</h1>
+            <p>Select your preferred candidate and submit your vote</p>
+        </div>
+
+        <!-- Candidates Grid -->
+        <div class="candidates-grid">
+            <!-- Candidate 1 -->
+            <div class="candidate-card">
+                <img src="https://ui-avatars.com/api/?name=John+Doe&size=150&background=1E88E5&color=fff&bold=true" alt="John Doe" class="candidate-photo">
+                <h3>John Doe</h3>
+                <p class="party">Party: ABC Party</p>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    "Building a prosperous future for all citizens with education and infrastructure development."
+                </p>
+                <button class="vote-button" onclick="selectCandidate(1, this)">Vote</button>
+            </div>
+
+            <!-- Candidate 2 -->
+            <div class="candidate-card">
+                <img src="https://ui-avatars.com/api/?name=Jane+Smith&size=150&background=2ECC71&color=fff&bold=true" alt="Jane Smith" class="candidate-photo">
+                <h3>Jane Smith</h3>
+                <p class="party">Party: XYZ Party</p>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    "Champion of healthcare reform and environmental sustainability for future generations."
+                </p>
+                <button class="vote-button" onclick="selectCandidate(2, this)">Vote</button>
+            </div>
+
+            <!-- Candidate 3 -->
+            <div class="candidate-card">
+                <img src="https://ui-avatars.com/api/?name=Alex+Roy&size=150&background=9C27B0&color=fff&bold=true" alt="Alex Roy" class="candidate-photo">
+                <h3>Alex Roy</h3>
+                <p class="party">Party: LMN Party</p>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    "Empowering small businesses and creating jobs through innovation and technology."
+                </p>
+                <button class="vote-button" onclick="selectCandidate(3, this)">Vote</button>
+            </div>
+
+            <!-- Candidate 4 -->
+            <div class="candidate-card">
+                <img src="https://ui-avatars.com/api/?name=Maria+Garcia&size=150&background=FF5722&color=fff&bold=true" alt="Maria Garcia" class="candidate-photo">
+                <h3>Maria Garcia</h3>
+                <p class="party">Party: PQR Party</p>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    "Fighting for social justice, equality, and opportunities for underserved communities."
+                </p>
+                <button class="vote-button" onclick="selectCandidate(4, this)">Vote</button>
+            </div>
+
+            <!-- Candidate 5 -->
+            <div class="candidate-card">
+                <img src="https://ui-avatars.com/api/?name=David+Chen&size=150&background=FFC107&color=333&bold=true" alt="David Chen" class="candidate-photo">
+                <h3>David Chen</h3>
+                <p class="party">Party: STU Party</p>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    "Committed to transparency in governance and fighting corruption at all levels."
+                </p>
+                <button class="vote-button" onclick="selectCandidate(5, this)">Vote</button>
+            </div>
+        </div>
+
+        <!-- Submit Vote Button -->
+        <div class="submit-vote-container">
+            <button class="submit-vote-btn" onclick="submitVote()" id="submitBtn" disabled>
+                Submit Vote
+            </button>
+            <p style="margin-top: 1rem; color: #666;">
+                <strong>Note:</strong> Once submitted, your vote cannot be changed. Please review your selection carefully.
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Decentralized Voting System</p>
+    </footer>
+
+    <script>
+        let selectedCandidate = null;
+
+        // Load voter name from localStorage
+        window.onload = function() {
+            const voterId = localStorage.getItem('voterId');
+            if (voterId) {
+                document.getElementById('voterName').textContent = voterId;
+            }
+        };
+
+        function selectCandidate(candidateId, button) {
+            // Remove selection from all buttons
+            const allButtons = document.querySelectorAll('.vote-button');
+            allButtons.forEach(btn => {
+                btn.classList.remove('selected');
+                btn.textContent = 'Vote';
+            });
+
+            // Select this candidate
+            selectedCandidate = candidateId;
+            button.classList.add('selected');
+            button.textContent = '✓ Selected';
+
+            // Enable submit button
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+        function submitVote() {
+            if (!selectedCandidate) {
+                alert('Please select a candidate first!');
+                return;
+            }
+
+            // Confirm vote submission
+            if (confirm('Are you sure you want to submit your vote? This action cannot be undone.')) {
+                // In a real application, this would send the vote to the blockchain
+                alert('Vote submitted successfully! Your vote has been recorded on the blockchain.');
+
+                // Store vote in localStorage (in real app, this would be on blockchain)
+                localStorage.setItem('hasVoted', 'true');
+                localStorage.setItem('votedFor', selectedCandidate);
+
+                // Redirect to home page
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('voterId');
+            window.location.href = 'login.html';
+        }
+
+        // Check if user has already voted
+        if (localStorage.getItem('hasVoted') === 'true') {
+            alert('You have already voted in this election!');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
